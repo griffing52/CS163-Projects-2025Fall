@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.10.0">Jekyll</generator><link href="http://localhost:4000/CS163-Projects-2025Fall/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/CS163-Projects-2025Fall/" rel="alternate" type="text/html" /><updated>2025-12-13T19:46:25-08:00</updated><id>http://localhost:4000/CS163-Projects-2025Fall/feed.xml</id><title type="html">2025F, UCLA CS163 Course Projects</title><subtitle>Course projects for UCLA CS163, Deep Learning in Compuver Vision</subtitle><author><name>UCLAdeepvision</name></author><entry><title type="html">Project Track, Project 8 - Streetview Semantic Segmentation</title><link href="http://localhost:4000/CS163-Projects-2025Fall/2025/12/13/team43.html" rel="alternate" type="text/html" title="Project Track, Project 8 - Streetview Semantic Segmentation" /><published>2025-12-13T00:00:00-08:00</published><updated>2025-12-13T00:00:00-08:00</updated><id>http://localhost:4000/CS163-Projects-2025Fall/2025/12/13/team43</id><content type="html" xml:base="http://localhost:4000/CS163-Projects-2025Fall/2025/12/13/team43.html"><![CDATA[<blockquote>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.10.0">Jekyll</generator><link href="http://localhost:4000/CS163-Projects-2025Fall/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/CS163-Projects-2025Fall/" rel="alternate" type="text/html" /><updated>2025-12-13T20:19:49-08:00</updated><id>http://localhost:4000/CS163-Projects-2025Fall/feed.xml</id><title type="html">2025F, UCLA CS163 Course Projects</title><subtitle>Course projects for UCLA CS163, Deep Learning in Compuver Vision</subtitle><author><name>UCLAdeepvision</name></author><entry><title type="html">Project Track, Project 8 - Streetview Semantic Segmentation</title><link href="http://localhost:4000/CS163-Projects-2025Fall/2025/12/13/team43.html" rel="alternate" type="text/html" title="Project Track, Project 8 - Streetview Semantic Segmentation" /><published>2025-12-13T00:00:00-08:00</published><updated>2025-12-13T00:00:00-08:00</updated><id>http://localhost:4000/CS163-Projects-2025Fall/2025/12/13/team43</id><content type="html" xml:base="http://localhost:4000/CS163-Projects-2025Fall/2025/12/13/team43.html"><![CDATA[<blockquote>
   <p>Semantic segmentation models achieve high overall accuracy on urban datasets, yet systematically fail on thin structures and object boundaries critical for safety-relevant perception.</p>
 
   <p>This project presents a diagnostic-driven framework for understanding segmentation failures on Cityscapes and introduces a SAM3-guided boundary supervision method that injects geometric priors into SegFormer. By combining cross-model difficulty analysis with geometry-aware auxiliary training, we demonstrate targeted improvements on thin and boundary-sensitive classes without increasing inference cost.</p>
@@ -191,7 +191,7 @@
 
 <h3 id="52-why-sam3">5.2 Why SAM3?</h3>
 
-<p>SAM3 provides high-quality, class-agnostic object boundaries learned from large-scale data. Rather than using SAM3 directly for semantic segmentation, we employ it as a <strong>frozen geometry teacher</strong> during training. As you can see in figure 5,</p>
+<p>SAM3 provides high-quality, class-agnostic object boundaries learned from large-scale data. Rather than using SAM3 directly for semantic segmentation, we employ it as a <strong>frozen geometry teacher</strong> during training. As you can see in <em>Figure 5</em>, SAM3 does a great job at segmenting “anything” but that does come at the cost of not easily combining categories into the general Cityscapes categories.</p>
 
 <h3 id="53-key-idea">5.3 Key Idea</h3>
 
@@ -222,7 +222,7 @@
 <p>At inference time, only the SegFormer model is used.</p>
 
 <div style="text-align: center;">
-  <img src="/CS163-Projects-2025Fall/assets/images/43/code_architecture.png" alt="Hybrid model" style="width: 600px; max-width: 100%;" />
+  <img src="/CS163-Projects-2025Fall/assets/images/43/code_architecture.png" alt="Hybrid model" style="width: 800px; max-width: 100%;" />
   <p><em>Fig 7. PyTorch Module definition for our Guided SegFormer.</em></p>
 </div>
 
@@ -345,8 +345,7 @@
   </em></p>
 </div>
 
-<p><strong>Analysis.</strong><br />
-DDRNet-23 Slim achieves the highest overall mIoU (76.83%), reflecting its strong inductive bias toward preserving fine spatial detail through a dual-resolution architecture. However, this performance comes at the cost of architectural specialization and reduced flexibility compared to transformer-based models.</p>
+<p>DDRNet-23 Slim achieves the highest overall mIoU (76.83%), reflecting its strong inductive bias toward preserving fine spatial detail through a dual-resolution architecture. However, this performance comes at the cost of architectural specialization and reduced flexibility compared to transformer-based models.</p>
 
 <p>Among transformer-based approaches, SegFormer serves as a strong baseline but lags behind both of our finetuned variants. SegFormer with Online Hard Example Mining (OHEM) achieves the highest mIoU among SegFormer variants (73.45%), indicating that emphasizing difficult samples improves global robustness. The proposed SAM3-guided SegFormer achieves a comparable mIoU (73.32%) while specifically targeting boundary-related failure modes, as discussed next.</p>
 
@@ -413,8 +412,7 @@ DDRNet-23 Slim achieves the highest overall mIoU (76.83%), reflecting its strong
 
 <p><strong>Table 2.</strong> <em>Per-class IoU improvements obtained by SAM3-guided boundary supervision on thin and boundary-sensitive categories.</em></p>
 
-<p><strong>Analysis</strong><br />
-The proposed SAM3-guided SegFormer improves mean IoU by <strong>+2.37</strong> over the baseline SegFormer, with gains concentrated almost exclusively on thin and boundary-dominated classes. The most pronounced improvements are observed for <em>rider</em> (+15.16) and <em>motorcycle</em> (+13.93), classes characterized by overlapping instances and ambiguous boundaries.</p>
+<p>The proposed SAM3-guided SegFormer improves mean IoU by <strong>+2.37</strong> over the baseline SegFormer, with gains concentrated almost exclusively on thin and boundary-dominated classes. The most pronounced improvements are observed for <em>rider</em> (+15.16) and <em>motorcycle</em> (+13.93), classes characterized by overlapping instances and ambiguous boundaries.</p>
 
 <p>These results strongly support the central hypothesis of this project: <strong>injecting geometric priors via boundary supervision disproportionately benefits thin and overlapping objects</strong>, which are poorly served by region-based losses alone.</p>
 
@@ -512,25 +510,29 @@ The proposed SAM3-guided SegFormer improves mean IoU by <strong>+2.37</strong> o
 
 <p><strong>Table 3.</strong> <em>Per-class IoU comparison across models for thin and boundary-sensitive categories.</em></p>
 
-<p><strong>Analysis.</strong><br />
-DDRNet-23 Slim consistently performs well on thin structures due to its architectural emphasis on high-resolution features. However, the SAM3-guided SegFormer closes much of this gap while retaining the flexibility and efficiency of a transformer-based backbone.</p>
+<p>DDRNet-23 Slim consistently performs well on thin structures due to its architectural emphasis on high-resolution features. However, the SAM3-guided SegFormer closes much of this gap while retaining the flexibility and efficiency of a transformer-based backbone.</p>
 
 <p>Zero-shot SAM3 achieves high IoU on some thin classes (e.g., motorcycle) but performs poorly on semantic consistency, especially for rider and terrain-related categories. This reinforces the conclusion that <strong>SAM3 is best leveraged as a geometry teacher rather than a standalone semantic segmentation model</strong>.</p>
 
 <p>Importantly, large “stuff” classes such as road, building, vegetation, and sky (not shown) remain stable across SegFormer variants, indicating that thin-class-only boundary supervision avoids over-regularization. A regression is observed for the <em>train</em> class in the SAM3-guided model, likely due to class rarity and ambiguous boundaries, and is discussed further in the limitations section.</p>
 
-<p><strong>Summary.</strong><br />
-Together, these results demonstrate that distilling geometric knowledge from a foundation model into a lightweight segmentation architecture yields <strong>targeted, interpretable improvements</strong> on known failure modes without increasing inference-time complexity.</p>
+<p>Together, these results demonstrate that distilling geometric knowledge from a foundation model into a lightweight segmentation architecture yields <strong>targeted, interpretable improvements</strong> on known failure modes without increasing inference-time complexity.</p>
 
 <h3 id="92-qualitative-results">9.2 Qualitative Results</h3>
 
-<p>Qualitative comparisons reveal sharper boundaries, improved instance separation, and reduced fragmentation in complex scenes. Although the difference in IoU isn’t ground breaking, with only 5 epochs of training with a batch size of 8 images on an A100 GPU, there is visible markers of thing objects that illustrate slow improvement in resolving these difficult objects.</p>
+<p>Qualitative comparisons reveal sharper boundaries, improved instance separation, and reduced fragmentation in complex scenes. Although the difference in IoU isn’t ground breaking, with only 5 epochs of training and a batch size of 8 images on an A100 GPU, there are substantial visible markers of emerging improved recognition of these difficult objects as seen in <em>Figure 10</em>.</p>
 
 <div style="text-align: center;">
-  <img src="/CS163-Projects-2025Fall/assets/images/43/SegFormer_images.png" alt="Difference" style="width: 800px; max-width: 100%;" />
-  <img src="/CS163-Projects-2025Fall/assets/images/43/OurSegFormer_results.png" alt="Difference" style="width: 800px; max-width: 100%;" />
+  <img src="/CS163-Projects-2025Fall/assets/images/43/SegFormer_combined.png" alt="Difference" style="width: 800px; max-width: 100%;" />
+  <!-- <img src="/CS163-Projects-2025Fall/assets/images/43/SegFormer_images.png"
+       alt="Difference"
+       style="width: 800px; max-width: 100%;" />
+  <img src="/CS163-Projects-2025Fall/assets/images/43/OurSegFormer_results.png"
+       alt="Difference"
+       style="width: 800px; max-width: 100%;" /> -->
+  <img src="/CS163-Projects-2025Fall/assets/images/43/SegFormer_labeled.png" alt="Difference" style="width: 800px; max-width: 100%;" />
   <p><em>
-    Fig 10. Side-by-side segmentation outputs for baseline vs SAM3-guided model. Top row is SegFormer results. Bottom row is our SAM3 guided SegFormer results.
+    Fig 10. Side-by-side segmentation outputs for baseline vs SAM3-guided model. Middle left is SegFormer results. Middle right is our SAM3-Guided SegFormer results. Bottom row highlights specific regions of improvement.
   </em></p>
 </div>
 
