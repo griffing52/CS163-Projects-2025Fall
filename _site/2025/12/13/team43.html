@@ -233,7 +233,13 @@
       <li><a href="#10-analysis-and-observations" id="markdown-toc-10-analysis-and-observations">10. Analysis and Observations</a></li>
       <li><a href="#11-limitations" id="markdown-toc-11-limitations">11. Limitations</a></li>
       <li><a href="#12-conclusion" id="markdown-toc-12-conclusion">12. Conclusion</a></li>
-      <li><a href="#13-future-work" id="markdown-toc-13-future-work">13. Future Work</a></li>
+      <li><a href="#13-future-work" id="markdown-toc-13-future-work">13. Future Work</a>        <ul>
+          <li><a href="#131-adaptive-class-aware-auxiliary-supervision" id="markdown-toc-131-adaptive-class-aware-auxiliary-supervision">13.1 Adaptive, class-aware auxiliary supervision</a></li>
+          <li><a href="#132-temporal-consistency-in-video-segmentation" id="markdown-toc-132-temporal-consistency-in-video-segmentation">13.2 Temporal consistency in video segmentation</a></li>
+          <li><a href="#133-dedicated-thin-object-evaluation-benchmarks" id="markdown-toc-133-dedicated-thin-object-evaluation-benchmarks">13.3 Dedicated thin-object evaluation benchmarks</a></li>
+          <li><a href="#134-boundary-specific-metrics" id="markdown-toc-134-boundary-specific-metrics">13.4 Boundary-specific metrics</a></li>
+        </ul>
+      </li>
       <li><a href="#references" id="markdown-toc-references">References</a></li>
     </ul>
   </li>
@@ -291,9 +297,9 @@
 
 <h3 id="32-difficulty-clustering">3.2 Difficulty Clustering</h3>
 
-<p>For each image in the validation set, we compute a performance vector containing per-class IoU scores from multiple models. We then apply clustering methods (e.g., k-means or hierarchical clustering) to group images by shared difficulty patterns.</p>
+<p>For each image in the validation set, we compute a performance vector containing per-class IoU scores from multiple models. We then apply simple clustering methods to group images by shared difficulty patterns based on their per model IoU.</p>
 
-<p>The resulting clusters are categorized as:</p>
+<p>The resulting clusters were observed as:</p>
 <ul>
   <li><strong>Universally Easy</strong>: all models perform well</li>
   <li><strong>Universally Hard</strong>: all models fail</li>
@@ -319,7 +325,14 @@
 
 <h3 id="33-attribute-and-pattern-analysis">3.3 Attribute and Pattern Analysis</h3>
 
-<p>We analyze correlations between difficulty clusters and image attributes such as object size, occlusion, clutter, and boundary density. This analysis reveals that thin structures and boundary-heavy scenes are overrepresented in hard clusters, particularly for transformer-based models.</p>
+<div style="text-align: center;">
+  <img src="/CS163-Projects-2025Fall/assets/images/43/worst_IoUs.png" alt="Difference" style="width: 800px; max-width: 100%;" />
+  <p><em>
+    5 images from the 'Universally Easy' category on top with the lowest loss--highest IoUs--and 5 images from the 'Universally Hard' category that includes images that collectively had some of the lowest performance independent of model.
+  </em></p>
+</div>
+
+<p>We manually analyzed correlations between difficulty clusters and image attributes such as object size, occlusion, clutter, and boundary density. This analysis revealed that thin structures and boundary-heavy scenes are overrepresented in hard clusters, particularly for transformer-based models. In the ‘hardest’ of images, it seems a mix of poor lighting and low resolution features</p>
 
 <h2 id="4-improving-the-baseline-ohem-and-oversampling">4. Improving the Baseline: OHEM and Oversampling</h2>
 
@@ -706,12 +719,17 @@ Together, these results demonstrate that distilling geometric knowledge from a f
 
 <h2 id="13-future-work">13. Future Work</h2>
 
-<ul>
-  <li>Dedicated thin-object evaluation benchmarks</li>
-  <li>Boundary-specific metrics</li>
-  <li>Temporal consistency in video segmentation</li>
-  <li>Adaptive, class-aware auxiliary supervision</li>
-</ul>
+<h3 id="131-adaptive-class-aware-auxiliary-supervision">13.1 Adaptive, class-aware auxiliary supervision</h3>
+<p>Currently, we use the same weight for the boundary auxiliary loss across all thin classes. However, our error analysis showed that classes with unclear internal textures, like Train, had more mistakes. In the future, we could try adaptive auxiliary weighting, where the boundary supervision strength changes based on the model’s uncertainty or the object’s size. This approach could help avoid breaking up large, rare objects too much, while still keeping high accuracy for small, thin structures.</p>
+
+<h3 id="132-temporal-consistency-in-video-segmentation">13.2 Temporal consistency in video segmentation</h3>
+<p>Urban perception is naturally a video task, but our current evaluation looks at each frame separately. Thin objects, such as poles and traffic signs, often appear to flicker between frames in standard models. A logical next step is to add temporal consistency constraints, using optical flow or temporal attention modules, to help our model keep sharp boundaries stable over time.</p>
+
+<h3 id="133-dedicated-thin-object-evaluation-benchmarks">13.3 Dedicated thin-object evaluation benchmarks</h3>
+<p>Future research should create dedicated thin-object benchmarks to rigorously test model performance on safety-critical structures. Evaluating on large-scale datasets needs a more efficient pipeline. Right now, our method relies on offline pre-computation, which uses a lot of storage. Switching to an online distillation framework with lighter foundation models like MobileSAM would let us scale our method to these benchmarks using regular consumer hardware, without the storage bottleneck.</p>
+
+<h3 id="134-boundary-specific-metrics">13.4 Boundary-specific metrics</h3>
+<p>Standard mIoU often hides improvements in fine geometric details. To better measure progress, we suggest using and standardizing Boundary IoU (BIoU) or Trimap-based metrics for urban benchmarks. These metrics would directly penalize alignment errors along object edges, giving a fairer and more safety-focused evaluation of segmentation models for autonomous driving.</p>
 
 <h2 id="references">References</h2>
 
