@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.10.0">Jekyll</generator><link href="http://localhost:4000/CS163-Projects-2025Fall/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/CS163-Projects-2025Fall/" rel="alternate" type="text/html" /><updated>2025-12-13T19:04:00-08:00</updated><id>http://localhost:4000/CS163-Projects-2025Fall/feed.xml</id><title type="html">2025F, UCLA CS163 Course Projects</title><subtitle>Course projects for UCLA CS163, Deep Learning in Compuver Vision</subtitle><author><name>UCLAdeepvision</name></author><entry><title type="html">Project Track, Project 8 - Streetview Semantic Segmentation</title><link href="http://localhost:4000/CS163-Projects-2025Fall/2025/12/13/team43.html" rel="alternate" type="text/html" title="Project Track, Project 8 - Streetview Semantic Segmentation" /><published>2025-12-13T00:00:00-08:00</published><updated>2025-12-13T00:00:00-08:00</updated><id>http://localhost:4000/CS163-Projects-2025Fall/2025/12/13/team43</id><content type="html" xml:base="http://localhost:4000/CS163-Projects-2025Fall/2025/12/13/team43.html"><![CDATA[<blockquote>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.10.0">Jekyll</generator><link href="http://localhost:4000/CS163-Projects-2025Fall/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/CS163-Projects-2025Fall/" rel="alternate" type="text/html" /><updated>2025-12-13T19:46:25-08:00</updated><id>http://localhost:4000/CS163-Projects-2025Fall/feed.xml</id><title type="html">2025F, UCLA CS163 Course Projects</title><subtitle>Course projects for UCLA CS163, Deep Learning in Compuver Vision</subtitle><author><name>UCLAdeepvision</name></author><entry><title type="html">Project Track, Project 8 - Streetview Semantic Segmentation</title><link href="http://localhost:4000/CS163-Projects-2025Fall/2025/12/13/team43.html" rel="alternate" type="text/html" title="Project Track, Project 8 - Streetview Semantic Segmentation" /><published>2025-12-13T00:00:00-08:00</published><updated>2025-12-13T00:00:00-08:00</updated><id>http://localhost:4000/CS163-Projects-2025Fall/2025/12/13/team43</id><content type="html" xml:base="http://localhost:4000/CS163-Projects-2025Fall/2025/12/13/team43.html"><![CDATA[<blockquote>
   <p>Semantic segmentation models achieve high overall accuracy on urban datasets, yet systematically fail on thin structures and object boundaries critical for safety-relevant perception.</p>
 
   <p>This project presents a diagnostic-driven framework for understanding segmentation failures on Cityscapes and introduces a SAM3-guided boundary supervision method that injects geometric priors into SegFormer. By combining cross-model difficulty analysis with geometry-aware auxiliary training, we demonstrate targeted improvements on thin and boundary-sensitive classes without increasing inference cost.</p>
@@ -136,7 +136,7 @@
 <div style="text-align: center;">
   <img src="/CS163-Projects-2025Fall/assets/images/43/SAM3_vs_SegFormer.png" alt="Difference" style="width: 800px; max-width: 100%;" />
   <p><em>
-    Fig 1. Venn Diagram Analysis of Model Consensus on Thin Object Classes.
+    Fig 3. Venn Diagram Analysis of Model Consensus on Thin Object Classes.
     Comparison of successful predictions (IoU &gt; 0.6) and failure cases (IoU &lt; 0.5)
     across SAM3-solo, SegFormer (Baseline), and our proposed SegFormer+SAM3 method.
     (Left) Shared Success: Our method (blue) not only retains the majority of
@@ -154,7 +154,7 @@
 <div style="text-align: center;">
   <img src="/CS163-Projects-2025Fall/assets/images/43/worst_IoUs.png" alt="Difference" style="width: 800px; max-width: 100%;" />
   <p><em>
-    5 images from the 'Universally Easy' category on top with the lowest loss--highest IoUs--and 5 images from the 'Universally Hard' category that includes images that collectively had some of the lowest performance independent of model.
+    Fig 4. Top row is 5 images from the 'Universally Easy' category on top with the lowest loss—highest IoUs—and bottom row is 5 images from the 'Universally Hard' category that includes images that collectively had some of the lowest performance independent of model.
   </em></p>
 </div>
 
@@ -166,7 +166,7 @@
 
 <h3 id="41-online-hard-example-mining-ohem">4.1 Online Hard Example Mining (OHEM)</h3>
 
-<p>Standard cross-entropy loss often gets dominated by easy examples (e.g., road, sky) which comprise the majority of pixels. OHEM [5] addresses this by selecting only the top $k$ pixels with the highest loss values for backpropagation. This forces the model to focus on difficult regions—often boundaries and thin structures—where predictions are uncertain.</p>
+<p>Standard cross-entropy loss often gets dominated by easy examples (e.g., road, sky) which comprise the majority of pixels. OHEM [5] addresses this by selecting only the top \(k\) pixels with the highest loss values for backpropagation. This forces the model to focus on difficult regions—often boundaries and thin structures—where predictions are uncertain.</p>
 
 \[\mathcal{L}_{OHEM} = \frac{1}{N_{hard}} \sum_{i \in \mathcal{P}_{hard}} -\log(p_{y_i})\]
 
@@ -180,18 +180,18 @@
 
 <h3 id="51-design-rationale">5.1 Design Rationale</h3>
 
-<p>Our analysis indicates that many segmentation failures arise not from semantic confusion, but from <strong>poor geometric localization</strong>. We therefore seek to inject geometric priors into a standard semantic segmentation model without altering its inference-time complexity.</p>
+<p>Our analysis indicates that many segmentation failures arise not from semantic confusion, but from <strong>poor geometric localization</strong>. We therefore seek to inject geometric priors into a standard semantic segmentation model without altering its inference-time complexity. As SAM3 is a master at geometric bounding, it provides reasonable suspicion that joining SAM3 and a traditional semantic segmentation model could generate some improved results.</p>
 
 <div style="text-align: center;">
   <img src="/CS163-Projects-2025Fall/assets/images/43/SAM3_output2.png" alt="Difference" style="width: 800px; max-width: 100%;" />
   <p><em>
-    Fig 1. Segmented output of SAM3 from multi-prompt input, which was given as category names (e.g. 'cars').
+    Fig 5. Segmented output of SAM3 from multi-prompt input, which was given as category names (e.g. 'cars', 'poles').
   </em></p>
 </div>
 
 <h3 id="52-why-sam3">5.2 Why SAM3?</h3>
 
-<p>SAM3 provides high-quality, class-agnostic object boundaries learned from large-scale data. Rather than using SAM3 directly for semantic segmentation, we employ it as a <strong>frozen geometry teacher</strong> during training. As you can see in figure TODO TODO TODO</p>
+<p>SAM3 provides high-quality, class-agnostic object boundaries learned from large-scale data. Rather than using SAM3 directly for semantic segmentation, we employ it as a <strong>frozen geometry teacher</strong> during training. As you can see in figure 5,</p>
 
 <h3 id="53-key-idea">5.3 Key Idea</h3>
 
@@ -206,6 +206,10 @@
 <h2 id="6-model-architecture">6. Model Architecture</h2>
 
 <h3 id="61-high-level-architecture">6.1 High-Level Architecture</h3>
+<div style="text-align: center;">
+  <img src="/CS163-Projects-2025Fall/assets/images/43/architecture_model.png" alt="Hybrid model" style="width: 600px; max-width: 100%;" />
+  <p><em>Fig 6. High level architecture of SAM3 guided SegFormer</em></p>
+</div>
 
 <p>The proposed system consists of:</p>
 <ul>
@@ -217,8 +221,10 @@
 
 <p>At inference time, only the SegFormer model is used.</p>
 
-<!-- Figure suggestion -->
-<!-- Fig. 2: High-level architecture diagram showing SegFormer backbone, boundary head, and SAM3 teacher -->
+<div style="text-align: center;">
+  <img src="/CS163-Projects-2025Fall/assets/images/43/code_architecture.png" alt="Hybrid model" style="width: 600px; max-width: 100%;" />
+  <p><em>Fig 7. PyTorch Module definition for our Guided SegFormer.</em></p>
+</div>
 
 <h3 id="62-boundary-head">6.2 Boundary Head</h3>
 
@@ -232,7 +238,7 @@
 
 <div style="text-align: center;">
   <img src="/CS163-Projects-2025Fall/assets/images/43/thin_class.png" alt="SAM3" style="width: 600px; max-width: 100%;" />
-  <p><em>Fig 2. Example boundary target generated by SAM3.</em></p>
+  <p><em>Fig 8. Example boundary target generated by SAM3.</em></p>
 </div>
 
 <h2 id="7-implementation-details">7. Implementation Details</h2>
@@ -335,7 +341,7 @@
 <div style="text-align: center;">
   <img src="/CS163-Projects-2025Fall/assets/images/43/all_boxwhisker.png" alt="Difference" style="width: 800px; max-width: 100%;" />
   <p><em>
-    Fig 1. Box and Whisker plot equivalent of Table 1.
+    Fig 9. Box and Whisker plot equivalent of Table 1.
   </em></p>
 </div>
 
@@ -518,10 +524,15 @@ Together, these results demonstrate that distilling geometric knowledge from a f
 
 <h3 id="92-qualitative-results">9.2 Qualitative Results</h3>
 
-<p>Qualitative comparisons reveal sharper boundaries, improved instance separation, and reduced fragmentation in complex scenes.</p>
+<p>Qualitative comparisons reveal sharper boundaries, improved instance separation, and reduced fragmentation in complex scenes. Although the difference in IoU isn’t ground breaking, with only 5 epochs of training with a batch size of 8 images on an A100 GPU, there is visible markers of thing objects that illustrate slow improvement in resolving these difficult objects.</p>
 
-<!-- Figure suggestion -->
-<!-- Fig. 3: Side-by-side segmentation outputs for baseline vs SAM3-guided model -->
+<div style="text-align: center;">
+  <img src="/CS163-Projects-2025Fall/assets/images/43/SegFormer_images.png" alt="Difference" style="width: 800px; max-width: 100%;" />
+  <img src="/CS163-Projects-2025Fall/assets/images/43/OurSegFormer_results.png" alt="Difference" style="width: 800px; max-width: 100%;" />
+  <p><em>
+    Fig 10. Side-by-side segmentation outputs for baseline vs SAM3-guided model. Top row is SegFormer results. Bottom row is our SAM3 guided SegFormer results.
+  </em></p>
+</div>
 
 <h2 id="10-analysis-and-observations">10. Analysis and Observations</h2>
 
